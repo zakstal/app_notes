@@ -16,7 +16,7 @@ the above is not real good code
 
 <% flash[:notices].try(:each) do |msg| %>
   <%= msg %>
-<% end %>
+<% end %
 
 
 ---auth-00 user model---
@@ -48,4 +48,17 @@ in a case where there is updateing of info you dont need to validate password
 
 ---auth-04:Session Token---
 
+log out same person on another machine
+store session token
+add a session token column to users
+session token is a random number
+add session token must be present validation
+add a before_validation call back
 
+self.session_token = SecureRandom::urlsafe_base64
+
+session token takes place of id for searching and validating and logging in
+
+log out user by reseting session token
+
+---auth-05:BCrypt---
