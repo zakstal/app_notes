@@ -1,0 +1,13 @@
+<form action="/users" method="post"
+  <label fro="user_password">Username</label>
+  <input type="text" name="users[password]" id="user_password">
+  <br
+
+  <label for="user_password">Password</label>
+  <input type="password" name="users[password]" id="user_password">
+
+  <input type="submit" value="Create User!">
+</form>
+
+
+
