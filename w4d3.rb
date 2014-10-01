@@ -81,3 +81,86 @@ first is queries markv.tags_ids to get the ids fo markov's crueent tags.
 any ids in new_tags no in markov.tag_ids ye, it builds and saves
 a new tagging object with cat-id: markov/id, tag_id: new_tag_id
 ?: ask johnathan about theses tags_to_destroy/tags_to_create at time 13:00
+
+ActiveRecord::Base.transaction
+?: what is the aboive
+
+def my_set_tag_ids(new_tag_ids)
+  old_tag_ids = self.tag_ids
+
+  tag_ids_to_destroy = old_tag_ids - new_tag_ids
+  tag_ids_to_create = new_tag_ids = old_tag_ids
+
+  ActiveRecord::Base.transaction do
+    Taggin.where(cat_id: self.id, tag_id: tag_ids_to_destroy).destroy_all
+    Taggin
+  end
+end
+
+the transaction is for when you are doing multiple things and they have to be all or nothing. ActiveRecord::Base.transaction will roll back everything is something goes wrong. If everything goes fine it will commit
+
+---IntroRailsVideoDemo: 17-checkboxes-1---
+
+we can get an array of tag ids by adding a extra bracket cat[tag_ids][]
+
+<% Tag.all.each do |tag| %>
+  <label>
+    <input type="checkbox" name="cat[tag_ids][]" value="<%= tag.id %>">
+    <%= tag.name %>
+    </label>
+    <br>
+  <% end %>
+
+
+---IntroRailsVideoDemo: 18-checkoutx-2---
+
+?: what is dependent: destroy?
+?: inverse_of
+has_many :taggings, dependent: :destroy, inverse_of :cat
+
+---IntroRailsVideoDemo: 19-checkboxes-3---
+
+for when there is not tags selected
+
+  <input type="hidden" name="cat[tag_ids][]" value="">
+
+---IntroRailsVideoDemo: 20-query-string---
+this is a way to find all the cats with a cerain tag if that tag is selected
+the .cats is an association
+
+?: is it the name: params[:tag] that filters the association
+def index
+  if params[:tag]
+    @cats = Tag.find_by(name: params[:tag]).cats
+  else
+    @cats = Cat.all
+  end
+
+end
+
+
+can retunr a list of all cats tagged with a selected tag in cats_url(tag: tag.name) by passing the hash
+
+<h1> All the cats!</h2>
+
+<ul>
+<li><%= link_to "All", cats_url %></li>
+<% Tag.all.each do |tag| %>
+  <li><%= linkto_tag.name, cats_url(tag: tag.name) %></li>
+  <% end %>
+</ul>
+
+<ul>
+<% @cats.each do |cat| %>
+  <li>
+  <%= cat_link(cat) %>
+
+  <%- button_to "Destroy Cat", cat_url(cat), method: :delete %>
+
+  </li>
+  <% end %>
+</ul>
+
+<%= link_to "New Cat!", new_cat_url %>
+
+
