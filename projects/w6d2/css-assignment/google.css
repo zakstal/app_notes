@@ -1,0 +1,236 @@
+figure, img, p, body, header, ul, li, main, form, button, input, footer, a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	color: inherit;
+	background: transparent;
+	text-decoration: none;
+	font-family: sans-serif;
+}
+
+/* UTILS */
+.group:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+ul {
+	list-style: none;
+}
+
+li {
+	float: left;
+	padding: 15px;
+}
+
+header {
+	padding: 10px 30px 10px 30px;
+
+}
+
+header > ul {
+	float: right;
+}
+
+li:hover {
+	text-decoration: underline;
+}
+
+.earth {
+	font-size: 25px;
+	position: absolute;
+	margin: -10px -10px 0 -10px;
+	color: #AAA;
+}
+
+.earth:hover {
+	color: black;
+}
+
+footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	background: #EEE;
+	color: #666;
+	border-top: 1px solid #DDD;
+}
+
+.left-list  {
+	padding-left: 15px;
+	float: left;
+}
+
+.right-list {
+	padding-right: 15px;
+	float: right;
+}
+
+.right-list > li {
+	margin: 0 5px;
+}
+
+.left-list > li {
+	margin: 0 5px;
+}
+
+main {
+	margin: 125px auto;
+	width: 715px;
+	text-align: center;
+}
+
+.logo {
+	font-family: 'EB Garamond', serif;
+	font-size: 4em;
+}
+
+input[type=text] {
+	border: 1px solid #DDDDDD;
+	width: 100%;
+	height: 37px;
+	padding-left: 10px;
+}
+
+input[type=text]:hover {
+	border: 1px solid #BBBBBB;
+}
+
+input[type=text]:focus {
+	border: 1px solid blue;
+}
+.mic {
+	font-size: 2em;
+	position: absolute;
+	margin: -3px 0px 10px 685px;
+}
+
+.sign-in {
+	display: block;
+	padding: 10px 20px;
+	background: #1469EB;
+	margin: -10px 0 0 0;
+	border-radius: 3px;
+	font-weight: bold;
+	color: white;
+}
+
+/*
+GOOGLE COLORS:
+G: #1469EB
+O: #D3402B
+O: #FFB605
+G: #1469EB
+L: #009856
+E: #D3402B
+*/
+
+.logo > span:nth-child(1), span:nth-child(4) {
+	color: #1469EB;
+}
+
+.logo > span:nth-child(2), span:nth-child(6) {
+	color: #D3402B;
+}
+
+.logo > span:nth-child(3) {
+	color: #FFB605;
+}
+
+.logo > span:nth-child(5) {
+	color: #009856;
+}
+
+.buttons {
+	display: block;
+	margin: 20px auto;
+}
+
+.buttons > button {
+	border-radius: 2px;
+	background: #EEE;
+	color: #444;
+	padding: 9px 12px;
+	margin: 0 5px;
+	border: 1px solid #DDD;
+	font-size: .85em;
+	font-weight: bold;
+}
+
+.buttons > button:hover {
+	border: 1px solid #BBB;
+}
+
+.app-launcher {
+	position: relative;
+}
+
+.earth:focus + .app-menu {
+	display: block;
+}
+
+.earth:focus {
+	color: black;
+}
+
+.app-menu {
+	display: none;
+	position: absolute;
+	width: 300px;
+	margin: auto;
+	background: white;
+	border: 1px solid #BBB;
+	float: right;
+	padding: 30px;
+	top: 70px;
+	right: -108px;
+}
+
+.app-menu > ul > li {
+	float: left;
+}
+
+.app-menu > ul > li {
+	display: block;
+	width: 64px;
+	text-align: center;
+}
+
+figure > img {
+	width: 62px;
+	height: 62px;
+}
+
+/* DANGER DANGER */
+
+.app-menu {
+/*	position: relative;*/
+	background: #ffffff;
+	border: 1px solid #bbbbbb;
+}
+.app-menu:after, .app-menu:before {
+	bottom: 100%;
+	left: 66%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.app-menu:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-bottom-color: #ffffff;
+	border-width: 10px;
+	margin-left: -10px;
+}
+.app-menu:before {
+	border-color: rgba(187, 187, 187, 0);
+	border-bottom-color: #bbbbbb;
+	border-width: 11px;
+	margin-left: -11px;
+}
+

@@ -1,0 +1,159 @@
+body, h1, header, nav, ul, li, main, section, p, footer, a {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	font-family: sans-serif;
+	text-decoration: none;
+}
+
+ul {
+	list-style: none;
+}
+
+/* UTILS */
+.group:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+body {
+	background: #EEEEEE;
+}
+
+header {
+	background: #FF0000;
+	color: white;
+	border-bottom: 3px solid #333333;
+}
+
+nav {
+	width: 900px;
+	margin: auto;
+	border-right: 3px solid #333333;
+	border-left: 3px solid #333333;
+}
+
+.note {
+	border-radius: 50%;
+	background: black;
+	width: 5px;
+	height: 5px;
+	padding: 2px 5px 2px 5px;
+	margin: 0 2px 0 5px;
+	font-size: .75em;
+}
+
+header > nav > h1 {
+	float: left;
+	font-weight: bold;
+}
+
+header > nav > h1 > a {
+	display: block;
+	padding: 10px 20px 10px 20px;
+}
+
+header > nav > ul {
+	float: right;
+}
+
+header > nav > ul > li {
+	float: left;
+	border-left: 3px solid #333333;
+}
+
+header > nav > ul > li > a {
+	display: block;
+	padding: 10px 20px 10px 20px;
+}
+
+.dropdown {
+	display: none;
+	background: white;
+	color: #333333;
+	margin: 0 0 0 -3px;
+	position: absolute;
+	border-top: 3px solid #333333;
+	border-left: 3px solid #333333;
+	border-right: 3px solid #333333;
+}
+
+.dropdown > ul > li:hover {
+	background: #CCCCCC;
+}
+
+.dropdown > ul > li {
+	border-bottom: 3px solid #333333;
+	padding: 5px 75px 5px 5px;
+}
+
+header > nav > ul > li:hover {
+	background: #333333;
+}
+
+header > nav > ul > li:hover > a > .note {
+	background: red;
+}
+
+header > nav > ul > li:hover > .dropdown {
+	display: block;
+}
+
+main {
+	width: 900px;
+	margin: auto;
+	background: white;
+	border-left: 3px solid #DDDDDD;
+	border-right: 3px solid #DDDDDD;
+}
+
+main h1 {
+	color: black;
+	font-size: 1.5em;
+	font-weight: bold;
+	padding: 0 0 5px 0;
+}
+
+.sidebar {
+	float: left;
+	display: block;
+	width: 200px;
+	border-right: 3px solid lightgray;
+	margin: 10px;
+	padding: 10px;
+}
+
+.content {
+	float: right;
+	display: block;
+	padding: 10px;
+	margin: 10px;
+	width: 610px;
+}
+
+footer {
+	width: 900px;
+	margin: auto;
+	background: #DDDDDD;
+	border: 3px solid #CCCCCC;
+	color: #999999;
+}
+
+footer > a {
+	float: left;
+	padding: 15px;
+}
+
+footer > ul {
+	float: right;
+}
+
+footer > ul > li {
+	float: left;
+	display: block;
+	padding: 15px;
+
+}
