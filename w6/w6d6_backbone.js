@@ -286,3 +286,266 @@ app_router.on('route:loadView', function( path, action ){
 });
 
 ---What is a collection?---
+
+
+
+
+var Song = Backbone.Model.extend({
+      initialize: function(){
+          console.log("Music is the answer");
+      }
+  });
+
+  var Album = Backbone.Collection.extend({
+    model: Song
+  });
+
+
+  ---Backbone.Model---
+
+  Models contain the data of our application as well as any logic surrounding it including 
+  conversions, validations and computed properties. We will extend Backbone.Model to get basic 
+  functionality for managing and listening to changes to the data.
+
+boneExample.Models.Example = Backbone.Model.extend({});
+
+backbone models can have an initialize that tacke json attributes as args
+
+Like ActiveRecord models, all the essential data for a Backbone model is stored 
+in an internal object called attributes and has get and set methods
+
+When model data is being displayed in a view prefer escape over get as it will safely 
+html escape data.
+
+console.log(example.get('title')); // => "<script>hack()</script>"
+// safer
+console.log(example.escape('title')); // => "&lt;script&gt;hack()&lt;&#x2F;script&gt;"
+
+
+The id attribute is used to determine if a model isNew or not 
+
+cid is an attribute added to all Models and is used to uniquely identify Models on the client side
+
+?: cid
+
+Backbone Model Method makes this HTTP request that  calls this Rails controller method
+save on a model with no id  POST  controller#create
+save on a model that has an id  PUT controller#update
+save on model with id using { patch: true } option  PATCH controller#update
+fetch on a model that has an id GET controller#show
+destroy on a model that has an id DELETE  controller#destroy
+
+?: urlRoot:
+
+
+SAVE:
+
+save is a method that will make a $.ajax request to your rails controller 
+using the model url or urlRoot attribute. It will either make a 
+
+
+var example = new BackboneExample.Models.Example();
+example.save({ title: "Example title" }, {
+  success: function(model, response, options){
+  //the success callback recieves the model itself as it's first argument
+  },
+
+  If you have already set the attributes on the model, then just pass an
+  empty object as the first argument.
+
+  FETCH:
+
+  fetch, when called on a Backbone model which has an id, will make an 
+  $.ajax request that goes to the controller's show method.
+
+  var example = new BackboneExample.Models.Example({ id: 1 });
+// The model must have an id - otherwise Rails doesn't know what to fetch
+example.fetch({
+  success: function(model, response, options){
+  //the success callback recieves the model itself as it's first argument
+  },
+
+
+DESTROY:
+
+destroy makes an $.ajax request of type DELETE, hitting your 
+Rails controller''s destroy method and deleting the record from your Rails database.
+
+---Backbone.Collection---
+
+Collections wrap sets of models, adds underscore.js methods and enables binding to 
+events for notifications as things change in the collection.
+
+Basic collection setup:
+
+BackboneExample.Collections.Examples = Backbone.Collection.extend({
+  model: BackboneExample.Models.Example,
+  url: "/api/examples",
+  initialize: function (attribute) {}
+});
+
+model
+
+The model property specifies the model class that the collection contains. 
+Defining this attribute allows us to pass raw attributes, and arrays of 
+raw attributes when creating collections and the attributes will be converted 
+to models of the proper type.
+
+url
+
+The url method of the collection defines the location of the RESTful resource on the server. 
+This will be the route to our rails api for the index action of that resource.
+
+// ?: is this the rails routes? or backbone routes
+
+Collection methods and the things they do (summary)
+
+Some backbone collection methods provide convenient wrappers for making common $.ajax requests:
+
+Backbone Collection Method  makes this HTTP request that  calls this Rails controller method
+fetch                     GET    controller#index
+create passing in a hash 
+of new model attributes   POST  controller#create (and on success, adds new model to Backbone collection.)
+
+
+fetch
+
+fetch is an async operation that will send an $.ajax request to url to get models from the server. 
+fetch takes an optional options hash that may include success and error callbacks.
+
+create
+
+create is also an async operation, and it sends an $.ajax POST request to url, 
+creating an instance of the model, as well as adding it to the collection. 
+It is equivalent to creating a model, calling save on the model, and then adding 
+it to the collection in the success callback for save.
+
+---Backbone.Router---
+
+Backbone.Router provides methods for routing our client-side pages. 
+Each route will be mapped to a method in our router. 
+Make sure to call Backbone.history.start() in your app initialize, s
+o that the router can listen for changes in the URL fragment.
+
+Routes can contain parameters prefixed with colon, similar to symbols in rails. Check this out:
+
+routes: {
+  '': 'index',
+  'examples/new': 'new',
+  'examples/:id': 'show',
+  'examples/:id/edit': 'edit'
+},
+index: function () {},
+show: function (id) {},
+new: function () {},
+edit: function (id) {}
+
+
+Notice:
+
+routes do not start with /
+trailing / will fire different routes (docs != docs/)
+
+
+---Backbone.View---
+
+Backbone.Views are used to organize the user interface into logical views that are 
+backed by data (models or collections). The best pattern to follow is to allow your 
+view to render (without redrawing the entire page) 
+whenever the data the view backs changes.
+
+
+Setup
+
+At a minimum an index view will look like this:
+
+BackboneExample.Views.ExamplesIndex = Backbone.View.extend({
+  template: JST['examples/index'],
+  render: function () {
+    var content = this.template({ examples: this.collection });
+    this.$el.html(content);
+    return this;
+  }
+});
+
+template
+
+The template property of a Backbone.View is a good place to store a template function. 
+We will be using JST (javascript templates) but you could use any templating engine here. 
+template takes an object where the keys will specify the names of the local variables 
+and the values are the values of the variables. Lucky for us, 
+JST looks and feels just like ERB.
+
+render
+
+One primary responsiblity of a view is to "render" content into an element on the DOM. render should:
+
+Compile the template into content
+Inject the content into the $el using html or append (we''ll look at $el in a sec)
+return this. (by returning the view we can have convenient chaining)
+
+initialize
+
+initialize can take several special options that will be directly 
+attached to the view if passed. Special options that we will pass 
+most commonly are collection and model. NB: The initialize method 
+will be used for setup of the views listeners. 
+Prefer passing an options hash opposed to individual params to initialize.
+
+$el and el
+
+el will by default be created as an empty div. el will hold a reference 
+to the html element, while $el will hold a cached jQuery object 
+for the view''s html. Prefer using the $el as it will have all of 
+  the jQuery methods we''ve grown to know and love.
+
+
+events
+
+The events hash is used with jQuery''s on function to register 
+callbacks to DOM events. The event hash should look like this:
+
+events: {
+  'event selector': 'callbackName'
+}
+
+---Backbone.Event---
+
+Backbone.Events is a module that can be mixed in to any object. 
+Many of the Backbone objects mixin Events and give the object the 
+ability to bind and trigger events. There are a few built in 
+events and you can create custom named events.
+
+
+listenTo
+
+listenTo tells an object to listen to an event on another object 
+and fire a callback when that event occurs. Let''s take a look.
+
+
+listenTo will automatically bind this to the context of the 
+object that is listening for the callback
+
+Built-in Events (from backbone docs)
+
+"add" (model, collection, options) — when a model is added to a collection.
+"remove" (model, collection, options) — when a model is removed from a collection.
+"reset" (collection, options) — when the collection's entire contents have been replaced.
+"sort" (collection, options) — when the collection has been re-sorted.
+"change" (model, options) — when a model's attributes have changed.
+"change:[attribute]" (model, value, options) — when a specific attribute has been updated.
+"destroy" (model, collection, options) — when a model is destroyed.
+"request" (model, xhr, options) — when a model (or collection) has started a request to the server.
+"sync" (model, resp, options) — when a model (or collection) has been successfully synced with the server.
+"error" (model, xhr, options) — when a model's save call fails on the server.
+"invalid" (model, error, options) — when a model's validation fails on the client.
+"route:[name]" (params) — Fired by the router when a specific route is matched.
+"route" (route, params) — Fired by the router when any route has been matched.
+"route" (router, route, params) — Fired by history when any route has been matched.
+"all" — this special event fires for any triggered event, passing the event name as the first argument.
+
+
+?: when calling comments new does it automatically render prepare the template?
+?: todos_index.j line 27 what is this.template being passed with todos? why pass it?
+?: todos_index.js line 34 why is _titleLowerCase, is it underscore?
+?: todos_new.js line 10 why this.$el.html(renderedContent); and not $("body").html(newView.render().$el); like in app_router.js line 37
