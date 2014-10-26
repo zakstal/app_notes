@@ -5,7 +5,7 @@ def parseres(res)
 end
 
 def add
-  `git add -A`
+  puts `git add -A`
 end
 
 def commit(res)
@@ -15,7 +15,7 @@ def commit(res)
 end
 
 def log
-  `git log`
+ puts `git log`
 end
 
 def newgit
