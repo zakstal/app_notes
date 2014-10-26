@@ -1,5 +1,5 @@
 def parseres(res)
-  text = res[res.index(':')..-1]
+  text = res[(res.index(':') + 1)..-1]
   code = res[0..res.index(':')]
   [text, code]
 end
@@ -9,10 +9,9 @@ def add
 end
 
 def commit(res)
-  puts "hello"
+  text = res.first
   add
-  `git commit -m "#{parseres(res).first}"`
-  puts "nello"
+  `git commit -m "#{text}"`
 end
 
 def log
@@ -42,13 +41,12 @@ end
 while true
 
   printf '>'
-  response = parseres(gets.chomp).last
-
-  case response
+  response = parseres(gets.chomp)
+  p response
+  case response.last
   when 'log:'
     log
   when 'c:'
-    puts "mlml"
     commit(response)
   when 'new:'
     newgit
